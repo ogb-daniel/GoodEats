@@ -27,6 +27,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.goodeats.R;
+import com.example.goodeats.data.Staff;
+import com.example.goodeats.data.StaffViewModel;
 import com.example.goodeats.data.User;
 import com.example.goodeats.data.UserViewModel;
 
@@ -37,8 +39,11 @@ import java.util.regex.Pattern;
 
 public class Login extends Fragment {
     private List<User> users = new ArrayList<>();
+    private List<Staff> staffs = new ArrayList<>();
     private UserViewModel userViewModel;
+    private StaffViewModel staffViewModel;
     private User user;
+    private Staff staff;
     private EditText email,password;
     private Button loginStaff,loginUser;
     private String registeredEmail,registeredPassword,emailUsername,emailPassword;
@@ -60,10 +65,11 @@ public class Login extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false);
+        View view  = inflater.inflate(R.layout.fragment_login, container, false);
+        return view;
     }
 
-    
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -87,6 +93,13 @@ public class Login extends Fragment {
             public void onChanged(List<User> users) {
                     setUsers(users);
 
+            }
+        });
+        staffViewModel = ViewModelProviders.of(this).get(StaffViewModel.class);
+        staffViewModel.getAllStaffs().observe(getViewLifecycleOwner(), new Observer<List<Staff>>() {
+            @Override
+            public void onChanged(List<Staff> staff) {
+                setStaffs(staff);
             }
         });
         loginUser.setOnClickListener(new View.OnClickListener() {
@@ -148,11 +161,63 @@ public class Login extends Fragment {
         loginStaff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                emailUsername = email.getText().toString().trim();
+                emailPassword = password.getText().toString().trim();
+                if(emailUsername.isEmpty()) {
+                    emailValid.setText("Enter Email Address!");
+                    emailValid.setTextColor(Color.RED);
+                }else {
+                    if (emailUsername.matches(emailPattern)) {
+                        emailValid.setText("Valid Email");
+                        emailValid.setTextColor(Color.WHITE);
+                        for (Staff staff:
+                                staffs) {
+                            registeredEmail = staff.getEmail();
+                            registeredPassword = staff.getPassword();
 
+                            if((emailUsername.equals(registeredEmail)) && (emailPassword.equals(registeredPassword))){
+                                progressLayout.setVisibility(View.VISIBLE);
+                                form.setVisibility(View.GONE);
+                                form.setClickable(false);
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Navigation.findNavController(v).navigate(R.id.action_login2_to_stafffHomePage);
+                                    }
+                                },3000);
+                            }else{
+                                progressLayout.setVisibility(View.VISIBLE);
+                                form.setVisibility(View.GONE);
+                                form.setClickable(false);
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        generalValid.setText("Invalid Credentials!!");
+                                        generalValid.setTextColor(Color.RED);
+                                        generalValid.setTextSize(20f);
+                                        progressLayout.setVisibility(View.INVISIBLE);
+                                        form.setVisibility(View.VISIBLE);
+                                        form.setClickable(true);
+                                    }
+                                },3000);
+                            }
+//                            Log.d("TAG","Logged:"+registeredEmail);
+//                            Log.d("TAG","Logged:"+registeredPassword);
+//                            Log.d("TAG","Email:"+emailUsername);
+//                            Log.d("TAG","Password:"+emailPassword);
+                        }
+                    } else {
+                        emailValid.setText("Invalid Email Address!");
+                        emailValid.setTextColor(Color.RED);
+                    }
+                }
             }
         });
     }
     public void setUsers(List<User> user){
         this.users = user;
+    }
+    public void setStaffs(List<Staff> staff){
+        this.staffs = staff;
     }
 }
