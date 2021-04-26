@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/onBorading">
+    <fragment
+        android:id="@+id/onBorading"
+        android:name="com.example.goodeats.ui.OnBorading"
+        android:label="fragment_on_borading"
+        tools:layout="@layout/fragment_on_borading" >
+        <action
+            android:id="@+id/action_onBorading_to_registration"
+            app:destination="@id/registration"
+            app:enterAnim="@anim/slide_in_right" />
+        <action
+            android:id="@+id/action_onBorading_to_login2"
+            app:destination="@id/login2"
+            app:enterAnim="@anim/slide_in_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/registration"
+        android:name="com.example.goodeats.ui.Registration"
+        android:label="fragment_registration"
+        tools:layout="@layout/fragment_registration" />
+    <fragment
+        android:id="@+id/login2"
+        android:name="com.example.goodeats.ui.Login"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_login2_to_userHomePage"
+            app:destination="@id/userHomePage"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_in_bottom" />
+    </fragment>
+    <fragment
+        android:id="@+id/userHomePage"
+        android:name="com.example.goodeats.ui.UserHomePage"
+        android:label="fragment_user_home_page"
+        tools:layout="@layout/fragment_user_home_page" />
+</navigation>
