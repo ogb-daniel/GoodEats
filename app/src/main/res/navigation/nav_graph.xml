@@ -35,10 +35,23 @@
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true"
             app:enterAnim="@anim/slide_in_bottom" />
+        <action
+            android:id="@+id/action_login2_to_stafffHomePage"
+            app:destination="@id/stafffHomePage"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_in_top"
+            />
     </fragment>
     <fragment
         android:id="@+id/userHomePage"
         android:name="com.example.goodeats.ui.UserHomePage"
         android:label="fragment_user_home_page"
         tools:layout="@layout/fragment_user_home_page" />
+    <fragment
+        android:id="@+id/stafffHomePage"
+        android:name="com.example.goodeats.ui.StafffHomePage"
+        android:label="fragment_stafff_home_page"
+        tools:layout="@layout/fragment_stafff_home_page" />
 </navigation>

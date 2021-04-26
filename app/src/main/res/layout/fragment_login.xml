@@ -39,7 +39,7 @@
             android:layout_gravity="center"
             android:indeterminate="true"
             app:indicatorColor="@color/yellow100"
-            app:trackThickness="20dp" />
+           />
     </LinearLayout>
 
     <LinearLayout
